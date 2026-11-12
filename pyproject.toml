@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "jupyter-cpp20-compile-kernel"
+version = "1.1.0"
+description = "A compile-and-run C++20 Jupyter kernel (g++ -std=c++20 -O0) designed for university C++ courses, with standard int main() support, error line context, and @input stdin injection."
+readme = "README.md"
+license = { text = "MIT" }
+requires-python = ">=3.9"
+keywords = ["jupyter", "kernel", "cpp", "c++20", "g++", "education"]
+classifiers = [
+    "Framework :: Jupyter",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "ipykernel>=6.0",
+    "jupyter_client>=7.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0",
+]
+
+[project.scripts]
+jupyter-cpp20-install = "jupyter_cpp20_kernel.install:main"
+
+[tool.setuptools.packages.find]
+include = ["jupyter_cpp20_kernel*"]

@@ -1,0 +1,18 @@
+# 增量叠加 Dockerfile：保留基础镜像原有的其他内核（如 xcpp20 / python3），
+# 额外新增 "C++20 (g++ 整格编译)" (cpp20_gpp) 内核，并默认开启单元格代码行号。
+#
+# 构建命令（在仓库根目录下执行）：
+#   docker build --platform linux/amd64 \
+#     -f docker/Dockerfile.overlay \
+#     --build-arg BASE_IMAGE=<你的现有Jupyter工作台镜像> \
+#     -t <新镜像名> .
+
+ARG BASE_IMAGE=jupyter/minimal-notebook:latest
+FROM ${BASE_IMAGE}
+
+COPY . /tmp/jupyter-cpp20-compile-kernel
+
+RUN python -m pip install --no-cache-dir /tmp/jupyter-cpp20-compile-kernel \
+    && jupyter-cpp20-install \
+    && python -m jupyter kernelspec list \
+    && rm -rf /tmp/jupyter-cpp20-compile-kernel
